@@ -22,7 +22,8 @@ $$\min_X \text{Rank}(X) \quad \text{s.t.} \quad P_\Omega(X) = P_\Omega(M)$$
 #### 2.1.1 数学形式
 
 $$\min_X \frac{1}{2} \|P_\Omega(X) - P_\Omega(M)\|_F^2 + \lambda \|X\|_*$$
-其中 $\|X\|_* = \sum_{i=1}^{\min(m,n)} \sigma_i(X)$为核范数（奇异值之和）。
+
+其中,$\|X\|_* = \sum_{i=1}^{\min(m,n)} \sigma_i(X)$为核范数（奇异值之和）。
 
 #### 2.1.2 Soft-Impute算法原理
 迭代更新公式：
