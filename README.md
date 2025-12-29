@@ -6,7 +6,7 @@
 矩阵填充是推荐系统、图像处理和生物信息学等领域的核心问题。在MovieLens电影推荐任务中，用户-电影评分矩阵极度稀疏（密度约1.34%），如何从有限的观测中恢复完整矩阵具有重要理论和应用价值。
 
 ### 1.2 问题形式化
-给定观测矩阵$M \in \mathbb{R}^{n \times m}$，仅知道子集$\Omega$上的元素$M_{ij}, (i,j) \in \Omega$，基于低秩假设重建完整矩阵：
+给定观测矩阵 $M \in \mathbb{R}^{n \times m}$，仅知道子集 $\Omega$上的元素 $M_{ij}, (i,j) \in \Omega$，基于低秩假设重建完整矩阵：
 $$\min_X \text{Rank}(X) \quad \text{s.t.} \quad P_\Omega(X) = P_\Omega(M)$$
 
 ### 1.3 实验目标
@@ -20,8 +20,9 @@ $$\min_X \text{Rank}(X) \quad \text{s.t.} \quad P_\Omega(X) = P_\Omega(M)$$
 ### 2.1 凸优化方法：核范数最小化
 
 #### 2.1.1 数学形式
+
 $$\min_X \frac{1}{2} \|P_\Omega(X) - P_\Omega(M)\|_F^2 + \lambda \|X\|_*$$
-其中$\|X\|_* = \sum_{i=1}^{\min(m,n)} \sigma_i(X)$为核范数（奇异值之和）。
+其中 $\|X\|_* = \sum_{i=1}^{\min(m,n)} \sigma_i(X)$为核范数（奇异值之和）。
 
 #### 2.1.2 Soft-Impute算法原理
 迭代更新公式：
@@ -31,18 +32,18 @@ $$X_{k+1} = S_{\lambda \eta}\left(X_k - \eta \nabla f(X_k)\right)$$
 - $\Sigma_\tau = \text{diag}(\max(\sigma_i - \tau, 0))$
 - $\eta$为步长
 
-**收敛性**：保证收敛到全局最优解，收敛速度$O(1/k)$。
+**收敛性**：保证收敛到全局最优解，收敛速度 $O(1/k)$。
 
 ### 2.2 非凸优化方法
 
 #### 2.2.1 交替最小化（Alternating Minimization）
-矩阵分解形式：$X = UV^T$
+矩阵分解形式: $X = UV^T$
 优化问题：
 $$\min_{U,V} \frac{1}{2} \sum_{(i,j)\in\Omega} (U_i V_j^T - M_{ij})^2 + \frac{\lambda}{2}(\|U\|_F^2 + \|V\|_F^2)$$
 
 更新规则：
-- 固定$V$，更新$U$：$U_i = \left(\sum_{j\in\Omega_i} v_j v_j^T + \lambda I\right)^{-1} \left(\sum_{j\in\Omega_i} M_{ij} v_j\right)$
-- 固定$U$，更新$V$：$V_j = \left(\sum_{i\in\Omega_j} u_i u_i^T + \lambda I\right)^{-1} \left(\sum_{i\in\Omega_j} M_{ij} u_i\right)$
+- 固定 $V$，更新 $U$: $U_i = \left(\sum_{j\in\Omega_i} v_j v_j^T + \lambda I\right)^{-1} \left(\sum_{j\in\Omega_i} M_{ij} v_j\right)$
+- 固定 $U$，更新 $V$: $V_j = \left(\sum_{i\in\Omega_j} u_i u_i^T + \lambda I\right)^{-1} \left(\sum_{i\in\Omega_j} M_{ij} u_i\right)$
 
 #### 2.2.2 梯度下降法
 目标函数：
@@ -90,12 +91,12 @@ $$\nabla_V f = (P_\Omega(UV^T) - P_\Omega(M))^T U + \lambda V$$
 1. **问题结构匹配**：MovieLens评分矩阵天然适合低秩分解
 2. **算法稳定性**：每次子问题为凸二次规划，保证收敛
 3. **初始化优势**：谱初始化接近真实解
-4. **正则化效果**：适度的$\ell_2$正则化防止过拟合
-5. **计算效率**：复杂度$O(r|\Omega|)$，适合稀疏矩阵
+4. **正则化效果**：适度的 $\ell_2$正则化防止过拟合
+5. **计算效率**：复杂度 $O(r|\Omega|)$，适合稀疏矩阵
 
 #### 4.2.2 Soft-Impute次优原因
 1. **计算近似**：随机化SVD引入近似误差
-2. **参数敏感**：正则化参数$\lambda$选择困难
+2. **参数敏感**：正则化参数 $\lambda$选择困难
 3. **内存限制**：处理大规模稠密矩阵内存消耗大
 4. **收敛速度**：需要更多迭代达到高精度
 
@@ -107,8 +108,8 @@ $$\nabla_V f = (P_\Omega(UV^T) - P_\Omega(M))^T U + \lambda V$$
 
 ### 4.3 统计显著性分析
 基于5折交叉验证结果进行配对t检验：
-- Alternating Minimization vs Soft-Impute：$p < 0.001$，差异显著
-- Alternating Minimization vs Gradient Descent：$p < 0.0001$，差异极显著
+- Alternating Minimization vs Soft-Impute: $p < 0.001$，差异显著
+- Alternating Minimization vs Gradient Descent: $p < 0.0001$，差异极显著
 
 ## 5. 算法复杂度分析
 
@@ -126,9 +127,9 @@ $$\nabla_V f = (P_\Omega(UV^T) - P_\Omega(M))^T U + \lambda V$$
 - $\epsilon$：目标精度
 
 ### 5.2 空间复杂度对比
-- **Soft-Impute**：$O(nm)$（稠密矩阵）
-- **交替最小化**：$O(r(n+m))$（因子矩阵）
-- **梯度下降**：$O(r(n+m))$（因子矩阵）
+- **Soft-Impute**: $O(nm)$（稠密矩阵）
+- **交替最小化**: $O(r(n+m))$（因子矩阵）
+- **梯度下降**: $O(r(n+m))$（因子矩阵）
 
 ### 5.3 实际运行时间估计
 ```python
