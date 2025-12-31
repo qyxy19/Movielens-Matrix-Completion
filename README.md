@@ -93,7 +93,7 @@ $$\nabla_{U_i} Q(U) =
 ## 3. 实验设置
 
 ### 3.1 数据集
-- **数据集**：MovieLens 10M
+- **数据集**：MovieLens 10M（来源: [https://grouplens.org/datasets/movielens/](https://grouplens.org/datasets/movielens/)）
 - **用户数**：69,878
 - **电影数**：10,677
 - **评分总数**：10,000,054
